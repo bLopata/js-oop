@@ -20,7 +20,7 @@ Polymorphism is the ability of an object to change behavior on runtime.
 
 ## Factory functions vs Constructor functions
 
-These two methods are similar in nature, but
+Consider the following two methods:
 
 ```javascript
 // Factory function
@@ -49,7 +49,7 @@ function Circle(radius) {
 const another = new Circle(1);
 ```
 
-Constructor functions use the `this` keyword within the function definition, and the `new` keyword to instantiate the function, similar to a class in other OOP languages.
+While they are similar, the constructor functions use the `this` keyword within the function definition, and the `new` keyword to instantiate the function, similar to a class in other OOP languages, whereas the factory function returns an object containing the same information.
 
 ## Literals
 
@@ -99,9 +99,31 @@ x.value = 20;
 
 Both `x` and `y` point to the same object in memory.
 
-### Adding or removing properties
+### [Adding or removing properties](https://codeburst.io/javascript-quickie-dot-notation-vs-bracket-notation-333641c0f781)
 
-You can use either 'dot notation' or 'bracket notation' to add a property to an object.
+You can add a property to an object by using either 'dot notation'
+
+```javascript
+let obj = {
+  cat: "meow",
+  dog: "woof"
+};
+let sound = obj.cat;
+console.log(sound);
+// meow
+```
+
+or 'bracket notation'
+
+```javascript
+let obj = {
+  cat: "meow",
+  dog: "woof"
+};
+let sound = obj["cat"];
+console.log(sound);
+// meow
+```
 
 ## Object Oriented Principles Expanded
 
@@ -113,4 +135,50 @@ Variables declared within a function can be made private by using `let` or `cons
 
 The second principle of OOP is inheritance, or taking on properties and methods from other modules. There are two types of inheritance: _classical_ and _prototypical_ inheritance.
 
-#### Prototypes and prototypical inheriance
+#### Prototypes and prototypical inheritance
+
+The prototype is the parent object, which allows child objects to inherit attributes from the prototype. Every object in JavaScript has a prototype except the root object, the objectBase.
+
+You can access the prototype object by using
+
+```javascript
+let exampleObject = {};
+
+Object.getPrototypeOf(exampleObject);
+```
+
+And modify attributes of an object by using
+
+```javascript
+Object.defineProperty(exampleObject, exampleAttribute, {});
+```
+
+The parent of an object is also the prototype of it's constructor.
+
+```javascript
+let obj = {};
+
+obj.__proto__;
+```
+
+is the same as
+
+```javascript
+Object.prototype;
+```
+
+#### Instance vs prototype members
+
+```javascript
+function Circle(radius) {
+  // Instance members
+  this.radius = radius;
+}
+
+// Prototype members
+Circle.prototype.draw = function() {
+  console.log("draw");
+};
+```
+
+When calling a method of an object, the JavaScript engine first looks at the Instance members, before looking at the prototype members. In the above example, the `Circle.draw()` method call would use the function declared in the prototype object, rather than the instance of the `Circle` object.
