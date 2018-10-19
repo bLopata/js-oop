@@ -147,10 +147,20 @@ let exampleObject = {};
 Object.getPrototypeOf(exampleObject);
 ```
 
-And modify attributes of an object by using
+You can modify attributes, or extend the scope of a property to the prototype of an object by using
 
 ```javascript
-Object.defineProperty(exampleObject, exampleAttribute, {});
+Object.defineProperty(exampleObject, "exampleProperty", {
+  configurable: false, // cannot be deleted
+  writable: false,
+  enumerable: false
+});
+```
+
+And access the attributes of a property by using
+
+```javascript
+Object.getOwnPropertyDescriptor(exampleObject, "exampleAttribute");
 ```
 
 The parent of an object is also the prototype of it's constructor.
@@ -165,6 +175,35 @@ is the same as
 
 ```javascript
 Object.prototype;
+```
+
+I.e.
+
+```javascript
+Object.prototype === Object.getPrototypeOf({});
+Array.prototype === Object.getPrototypeOf([]);
+```
+
+All objects created with the same constructor will have the same prototype.
+A single instance of this prototype will be stored in the memory.
+
+```javascript
+const x = {};
+const y = {};
+Object.getPrototypeOf(x) === Object.getPrototypeOf(y); // returns true
+```
+
+To get the own/instance properties, use
+
+```js
+Object.keys(obj);
+```
+
+And to get all the properties (own + prototype) , use
+
+```js
+for (let key in obj) {
+}
 ```
 
 #### Instance vs prototype members
@@ -182,3 +221,10 @@ Circle.prototype.draw = function() {
 ```
 
 When calling a method of an object, the JavaScript engine first looks at the Instance members, before looking at the prototype members. In the above example, the `Circle.draw()` method call would use the function declared in the prototype object, rather than the instance of the `Circle` object.
+
+#### Tips
+
+**Avoid modifying objects you don't own!**
+
+**Premature optimization is the root of all evils!**
+-Mosh

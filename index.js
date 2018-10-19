@@ -1,23 +1,55 @@
-function Circle(radius) {
-  this.move = function () {
-    this.draw()
-    console.log('move')
-  }
-  // Instance members
-  this.radius = radius
+function Stopwatch() {
+  let startTime,
+    endTime,
+    running,
+    duration = 0
+  Object.defineProperty(this, "duration", {
+    get: function () {
+      return duration;
+    },
+    set: function (value) {
+      duration = value
+    }
+  })
+  Object.defineProperty(this, "startTime", {
+    get: function () {
+      return startTime;
+    }
+  })
+  Object.defineProperty(this, "endTime", {
+    get: function () {
+      return endTime;
+    }
+  })
+  Object.defineProperty(this, "running", {
+    get: function () {
+      return running;
+    }
+  })
+};
 
+Stopwatch.prototype.start = function () {
+  if (this.running)
+    throw new Error(
+      `Stopwatch is already running. The current duration is ${this.duration}.`
+    );
+  this.running = true;
+  this.startTime = new Date();
 }
 
-// Prototype members
-Circle.prototype.draw = function () {
-  console.log('draw')
-}
+Stopwatch.prototype.stop = function () {
+  if (!this.running) throw new Error("Stopwatch is not started!");
+  this.running = false;
 
-const c1 = new Circle(1)
-const c2 = new Circle(1)
+  this.endTime = new Date();
 
-Circle.prototype.toString = function () {
-  return `Circle with radius ${this.radius}`
-}
+  const seconds = (this.endTime.getTime() - this.startTime.getTime()) / 1000;
+  this.duration += seconds;
+};
 
-Object.keys(c1)
+Stopwatch.prototype.reset = function () {
+  this.startTime = null;
+  this.endTime = null;
+  this.running = false;
+  this.duration = 0;
+};
