@@ -1,55 +1,47 @@
-function Stopwatch() {
-  let startTime,
-    endTime,
-    running,
-    duration = 0
-  Object.defineProperty(this, "duration", {
-    get: function () {
-      return duration;
-    },
-    set: function (value) {
-      duration = value
-    }
-  })
-  Object.defineProperty(this, "startTime", {
-    get: function () {
-      return startTime;
-    }
-  })
-  Object.defineProperty(this, "endTime", {
-    get: function () {
-      return endTime;
-    }
-  })
-  Object.defineProperty(this, "running", {
-    get: function () {
-      return running;
-    }
-  })
-};
-
-Stopwatch.prototype.start = function () {
-  if (this.running)
-    throw new Error(
-      `Stopwatch is already running. The current duration is ${this.duration}.`
-    );
-  this.running = true;
-  this.startTime = new Date();
+function HtmlElement() {
+  this.click = function () {
+    console.log('clicked')
+  }
 }
 
-Stopwatch.prototype.stop = function () {
-  if (!this.running) throw new Error("Stopwatch is not started!");
-  this.running = false;
+HtmlElement.prototype.focus = function () {
+  console.log("focused");
+}
 
-  this.endTime = new Date();
+function HtmlSelectElement(items = []) {
+  this.items = items;
+  this.addItem = function (item) {
+    this.items.push(item)
+  }
+  this.removeItem = function (item) {
+    this,
+    items.splice(this.items.indexOf(item), 1)
+  }
+  this.render = function () {
+    return `<select>
+      ${this.items.map(item => `
+      <option> ${item} </option>`).join('')}
+</select>`
+  }
+}
 
-  const seconds = (this.endTime.getTime() - this.startTime.getTime()) / 1000;
-  this.duration += seconds;
-};
+function HtmlImageElement(src = '') {
+  this.src = `"${src}"`;
+  this.render = function () {
+    return `<img src=${this.src} />`
+  }
+}
 
-Stopwatch.prototype.reset = function () {
-  this.startTime = null;
-  this.endTime = null;
-  this.running = false;
-  this.duration = 0;
-};
+HtmlSelectElement.prototype = new HtmlElement()
+HtmlSelectElement.prototype.constructor = HtmlSelectElement
+
+HtmlImageElement.prototype = new HtmlElement()
+HtmlImageElement.prototype.constructor = HtmlImageElement
+
+const elements = [
+  new HtmlSelectElement([1, 2, 3]),
+  new HtmlImageElement('http://')
+]
+
+for (let element of elements)
+  console.log(element.render())

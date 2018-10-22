@@ -222,7 +222,97 @@ Circle.prototype.draw = function() {
 
 When calling a method of an object, the JavaScript engine first looks at the Instance members, before looking at the prototype members. In the above example, the `Circle.draw()` method call would use the function declared in the prototype object, rather than the instance of the `Circle` object.
 
+#### Creating your own prototype
+
+When multiple child objects are required which must inherit attributes from a user-defined Object, you can create a custom prototype to handle this inheritance.
+
+For example, the Shape object is created below, and the prototype for the Child `Circle` object is set as the Shape.prototype. **NOTE** when setting the prototype in this fashion, you must also set the `Circle.prototype.constructor` to the `Circle` constructor function to avoid issues when instantiating a `new` Object.
+
+```js
+function Shape() {}
+
+Shape.prototype.duplicate = function() {
+  console.log("duplicate");
+};
+
+function Circle(radius) {
+  this.radius = radius;
+}
+
+Circle.prototype = Object.create(Shape.prototype);
+Circle.prototype.constructor = Circle;
+
+Circle.prototype.draw = function() {
+  console.log("draw");
+};
+
+const s = new Shape();
+const c = new Circle(1);
+```
+
+Additionally, this logic for setting the custom prototype and resetting the constructor can be encapsulated into a function, i.e.
+
+```js
+function extend(Child, Parent) {
+  Child.prototype = Object.create(Parent.prototype);
+  Child.prototype.constructor = Child;
+}
+```
+
+#### Calling the super constructor
+
+To substitute a property in the child object with one declared in the parent object, use the `call()` method, i.e.
+
+```js
+parentObject.call(this, exampleProperty);
+```
+
+within the declaration of the child object.
+
+#### Method overwriting
+
+Method overwriting is used when one or more child objects requires a different implementation of a parent object property. You simply re-declare a property on the Child object. As described earlier, the JavaScript engine walks up the chain from the child object to the parent object on a method call, therefore the function declaration on the Child object will be used, i.e.
+
+```js
+Circle.prototype.duplicate = function() {
+  Shape.prototype.duplicate.call(this);
+  console.log("duplicate circle");
+};
+```
+
+### Polymorphism
+
+If we expand the above example for method overwriting with a second constructor, `Square`, with yet another `duplicate()` method implementation, we are broaching into Polymorphism, the fourth pillar of OOP.
+
+Now with the heirarchy of a parent object, and two derivative--or child objects, we can iterate over an array of objects, i.e.
+
+```js
+const shapes = [new Circle(), new Square()];
+```
+
+with a for loop
+
+```js
+for (let shape of shapes) shape.duplicate();
+```
+
+which uses the `duplicate()` method unique to each object.
+
+#### Composition
+
+To avoid complex inheritance heirarchies, use composition instead of inheritance. Composition involves creating objects, and then using the `Object.assign()` method to combine the source objects. This can further be encapsulated using an interable array as an input argument to a function, i.e.
+
+```js
+function mixIn(target, ...sources) {
+  Object.assign(target, ...sources);
+}
+```
+
+(_See mixins.js for more information, including `spread` operator_.)
+
 #### Tips
+
+Avoid creating inheritance heirarchies of more than one level of inheritance. Instead, using composition of objects.
 
 **Avoid modifying objects you don't own!**
 
