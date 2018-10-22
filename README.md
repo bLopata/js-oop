@@ -101,7 +101,7 @@ Both `x` and `y` point to the same object in memory.
 
 ### [Adding or removing properties](https://codeburst.io/javascript-quickie-dot-notation-vs-bracket-notation-333641c0f781)
 
-You can add a property to an object by using either 'dot notation'
+You can add a property to an object by using either '_dot notation_'
 
 ```javascript
 let obj = {
@@ -113,7 +113,7 @@ console.log(sound);
 // meow
 ```
 
-or 'bracket notation'
+or '_bracket notation_'
 
 ```javascript
 let obj = {
@@ -130,6 +130,48 @@ console.log(sound);
 ### Abstraction
 
 Variables declared within a function can be made private by using `let` or `const` in place of `this`. The scope of these local variables only exists within the function and cannot be accessed outside of the function.
+
+Abstraction can be acheived by using `private` properties and methods in JavaScript Objects or Classes. In ES6 there is a new primitive type called Symbol which can be used to anonymize and privatize properties and methods.
+
+```js
+const _radius = Symbol();
+class Circle {
+  constructor(radius) {
+    this[_radius] = radius;
+  }
+}
+
+const c = new Circle();
+```
+
+_WeakMaps_, a new type in ES6, can also be used to implement private properties and methods. A WeakMap is essentially a dictionary where the keys are Objects and the values can be anything. The keys will be garbage collected if not referenced.
+
+```js
+const _radius = new WeakMap();
+
+class Circle {
+  constructor(radius) {
+    _radius.set(this, radius);
+  }
+}
+```
+
+_Getters and setters_ can allow access to properties without needing a method call. They are defined within a Class declaration by using
+
+```js
+  get radius() {
+    return _radius.get(this)
+  }
+```
+
+and
+
+```js
+  set radius(value) {
+    if (value <= 0) throw new Error('invalid radius')
+    _radius.set(this, value)
+  }
+```
 
 ### Inheritance
 
@@ -310,7 +352,113 @@ function mixIn(target, ...sources) {
 
 (_See mixins.js for more information, including `spread` operator_.)
 
+### Classes in ES6
+
+Classes are a new feature in JavaScript ES6. They are essentially sytactic sugar over prototypical inheritance.
+
+```js
+class Circle {
+  constructor(radius) {
+    this.radius = radius;
+
+    // Methods declared here are instantiated on the child object.
+    this.move = function() {};
+  }
+  // All methods declared here are added on the prototype.
+  draw() {
+    console.log("draw");
+  }
+}
+
+const c = new Circle(1);
+```
+
+Classes, like functions, can be invoked using declaration or expression. And, like functions, the class declaration will be hoisted to the top of the file while class expressions will not.
+
+#### Static Methods
+
+Static methods can be declared within a class by using the `static` prefix keyword. Static methods are utility functions which can be used outside of the scope of the class to acheive some return value, i.e.
+
+```js
+class Math2 {
+  static abs(value) {
+    // ...
+  }
+}
+
+Math2.abs();
+```
+
+#### This keyword
+
+Consider the following:
+
+```js
+const Circle = function() {
+  this.draw = function() {
+    console.log(this);
+  };
+};
+const c = new Circle();
+
+// Method call on an object
+c.draw();
+
+const draw = c.draw;
+
+// Function call
+draw();
+```
+
+The output of the method call will be the Circle object, whereas the output of the function call will be the global object - Window in the browser and Global in node. However, the strict mode can be used to prevent function calls from accessing the global object by adding `'use strict'` to the top of the file. This is to prevent the user from modifying the global object. By default, the body of a class declaration will use the strict mode.
+
+#### Class inheritance
+
+Inheriting methods from a prototype class is very simple using classes. Simply use the `extends` keyword in the class declaration, i.e.
+
+```js
+class Shape {
+  move() {
+    console.log("move");
+  }
+}
+
+class Circle extends Shape {
+  draw() {
+    console.log("draw");
+  }
+}
+```
+
+Property inheritance requires constructors in the child class to invoke the `super()` method which indicates that the property is defined in the parent Object. If we add a constructor for color to the parent Class in the above example, i.e.
+
+```js
+// Parent Object
+  constructor(color) {
+    this.color = color
+  }
+```
+
+a constructor must then be added which invokes `super()` to inherit the property from the parent Class, so
+
+```js
+// Child Object
+  constructor(color) {
+    super(color)
+  }
+```
+
 #### Tips
+
+Function declarations are hoisted by the engine to the top of the file. Function expressions are not hoisted. You will not get an error at runtime when calling a function before it's declaration, however you will get an error for calling a function before it's expression.
+
+```js
+// Function declaration
+function sayHello() {}
+
+// Function expression
+const sayGoodbye = function() {};
+```
 
 Avoid creating inheritance heirarchies of more than one level of inheritance. Instead, using composition of objects.
 
