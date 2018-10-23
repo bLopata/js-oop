@@ -1,20 +1,18 @@
 # Object Oriented Programming in JS
 
-## Four components
-
-### _Abstraction_
+## _Abstraction_
 
 Abstraction aims to reduce code complexity and increase readibility by exposing only the essential features of an entity while hiding other details.
 
-### _Encapsulation_
+## _Encapsulation_
 
 Encapsulation is hiding modules and other internal data from other modules.
 
-### _Inheritance_
+## _Inheritance_
 
 Inheritance is the practice of passing properties and methods from one class to it's sub-classes.
 
-### _Polymorphism_
+## _Polymorphism_
 
 Polymorphism is the ability of an object to change behavior on runtime.
 
@@ -84,7 +82,7 @@ In JavaScript, you have two types of data:
 - Objects
 - Arrays (which are also objects)
 
-Simply put, you have value types and objects.
+Simply put, you have **value types** and **objects**.
 
 Primitives are copied by their value while reference Types are copied by the reference.
 
@@ -127,7 +125,7 @@ console.log(sound);
 
 ## Object Oriented Principles Expanded
 
-### Abstraction
+## Abstraction
 
 Variables declared within a function can be made private by using `let` or `const` in place of `this`. The scope of these local variables only exists within the function and cannot be accessed outside of the function.
 
@@ -173,11 +171,11 @@ and
   }
 ```
 
-### Inheritance
+## Inheritance
 
 The second principle of OOP is inheritance, or taking on properties and methods from other modules. There are two types of inheritance: _classical_ and _prototypical_ inheritance.
 
-#### Prototypes and prototypical inheritance
+## Prototypes and prototypical inheritance
 
 The prototype is the parent object, which allows child objects to inherit attributes from the prototype. Every object in JavaScript has a prototype except the root object, the objectBase.
 
@@ -248,7 +246,7 @@ for (let key in obj) {
 }
 ```
 
-#### Instance vs prototype members
+### Instance vs prototype members
 
 ```javascript
 function Circle(radius) {
@@ -264,7 +262,7 @@ Circle.prototype.draw = function() {
 
 When calling a method of an object, the JavaScript engine first looks at the Instance members, before looking at the prototype members. In the above example, the `Circle.draw()` method call would use the function declared in the prototype object, rather than the instance of the `Circle` object.
 
-#### Creating your own prototype
+### Creating your own prototype
 
 When multiple child objects are required which must inherit attributes from a user-defined Object, you can create a custom prototype to handle this inheritance.
 
@@ -301,7 +299,7 @@ function extend(Child, Parent) {
 }
 ```
 
-#### Calling the super constructor
+### Calling the super constructor
 
 To substitute a property in the child object with one declared in the parent object, use the `call()` method, i.e.
 
@@ -311,7 +309,7 @@ parentObject.call(this, exampleProperty);
 
 within the declaration of the child object.
 
-#### Method overwriting
+### Method overwriting
 
 Method overwriting is used when one or more child objects requires a different implementation of a parent object property. You simply re-declare a property on the Child object. As described earlier, the JavaScript engine walks up the chain from the child object to the parent object on a method call, therefore the function declaration on the Child object will be used, i.e.
 
@@ -322,7 +320,7 @@ Circle.prototype.duplicate = function() {
 };
 ```
 
-### Polymorphism
+## Polymorphism
 
 If we expand the above example for method overwriting with a second constructor, `Square`, with yet another `duplicate()` method implementation, we are broaching into Polymorphism, the fourth pillar of OOP.
 
