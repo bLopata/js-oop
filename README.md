@@ -19,6 +19,8 @@
 3. [Expanded Principles](#Expanded)
 
    - [Abstraction](#ExpandedExpandedAbstraction)
+     - [WeakMaps](#WeakMaps)
+     - [Symbols](#Symbols)
    - [Inheritance](#ExpandedInheritance)
      - [Prototypes and Prototypical Inheritance](#Prototypical)
      - [Instance vs Prototype Members](#InstancevsPrototype)
@@ -34,7 +36,9 @@
    - [This keyword](#This)
    - [Class inheritance](#ClassInheritance)
 
-5. [Tips](#Tips)
+5. [Modules](#Modules)
+6. [ES6 Tooling](#Tooling)
+7. [Tips](#Tips)
 
 <a name="Principles"></a>
 
@@ -192,7 +196,13 @@ console.log(sound);
 
 Variables declared within a function can be made private by using `let` or `const` in place of `this`. The scope of these local variables only exists within the function and cannot be accessed outside of the function.
 
-Abstraction can be acheived by using `private` properties and methods in JavaScript Objects or Classes. In ES6 there is a new primitive type called Symbol which can be used to anonymize and privatize properties and methods.
+Abstraction can be acheived by using `private` properties and methods in JavaScript Objects or Classes.
+
+<a name="Symbols"></a>
+
+### Symbols
+
+In ES6 there is a new primitive type called Symbol which can be used to anonymize and privatize properties and methods.
 
 ```js
 const _radius = Symbol();
@@ -204,6 +214,10 @@ class Circle {
 
 const c = new Circle();
 ```
+
+<a name="WeakMaps"></a>
+
+### WeakMaps
 
 _WeakMaps_, a new type in ES6, can also be used to implement private properties and methods. A WeakMap is essentially a dictionary where the keys are Objects and the values can be anything. The keys will be garbage collected if not referenced.
 
@@ -530,6 +544,48 @@ a constructor must then be added which invokes `super()` to inherit the property
     super(color)
   }
 ```
+
+<a name="Modules"></a>
+
+## Modules
+
+The principle of Cohesion states that things that are higly related should go together.
+
+Module formats:
+
+- AMD - Asynchronous Module Definition (Browser)
+- CommonJS (Node)
+- UMD / Universal Module Definition (Browser + Node)
+- ES6 Modules
+
+CommonJS modules are an ES5 convention. CommonJS modules can be implemented by using the `module.exports` and `require` statements.
+
+In ES6, modules can be exported using `export class exampleClass` and imported using `import { exampleClass } from './exampleClass'`.
+
+<a name="Tooling"></a>
+
+## ES6 Tooling
+
+Transpiler - combination of translator and compiler. Babel is one example.
+
+Babel can be installed using
+
+```js
+npm i babel-cli babel-core babel-preset-env --save-dev
+```
+
+Update the scripts section in your `package.json` file with
+
+```js
+"scripts": {
+    "babel": "babel --presets env inputFile.js -o build/outputFile.js"
+  }
+```
+
+and invoked using
+`npm run babel`. This will have babel transpile your ES6 code in `inputFile.js` to an ES5 browser friendly `outputFile.js`.
+
+Bundler - combines all JS files into one "uglyfied" JS file. WebPack is one popular example.
 
 <a name="Tips"></a>
 

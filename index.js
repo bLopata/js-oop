@@ -1,13 +1,6 @@
-class Shape {
-  move() {
-    console.log('move')
-  }
-}
+import {
+  Circle
+} from './circle.js'
 
-class Circle extends Shape {
-  move() {
-    console.log('circle move')
-  }
-}
-
-const c = new Circle()
+const c = new Circle(10)
+c.draw()
