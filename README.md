@@ -36,27 +36,40 @@
 
 5. [Tips](#Tips)
 
-# Principles of Object Oriented Programming <a name="Principles"></a>
+<a name="Principles"></a>
 
-## Abstraction<a name="Abstraction"></a>
+# Principles of Object Oriented Programming
+
+<a name="Abstraction"></a>
+
+## Abstraction
 
 Abstraction aims to reduce code complexity and increase readibility by exposing only the essential features of an entity while hiding other details.
 
-## Encapsulation<a name="Encapsulation"></a>
+<a name="Encapsulation"></a>
+
+## Encapsulation
 
 Encapsulation is hiding modules and other internal data from other modules.
 
-## Inheritance<a name="Inheritance"></a>
+<a name="Inheritance"></a>
+
+## Inheritance
 
 Inheritance is the practice of passing properties and methods from one class to it's sub-classes.
+<a name="Polymorphism"></a>
 
-## Polymorphism<a name="Polymorphism"></a>
+## Polymorphism
 
 Polymorphism is the ability of an object to change behavior on runtime.
 
-# Definitions<a name="Definitions"></a>
+<a name="Definitions"></a>
 
-## Factory functions vs Constructor functions<a name="FnTypes"></a>
+# Definitions
+
+<a name="FnTypes"></a>
+
+## Factory functions vs Constructor functions
 
 Consider the following two methods:
 
@@ -89,7 +102,9 @@ const another = new Circle(1);
 
 While they are similar, the constructor functions use the `this` keyword within the function definition, and the `new` keyword to instantiate the function, similar to a class in other OOP languages, whereas the factory function returns an object containing the same information.
 
-## Literals<a name="Literals"></a>
+<a name="Literals"></a>
+
+## Literals
 
 Instantiating an object using
 
@@ -103,7 +118,9 @@ The JavaScript engine compiles this literal definition as
 
 Similarly, you can instantiate a String, Boolean, or Number value using the constructor or the literal counterpart.
 
-## Primitives and Objects<a name="DataTypes"></a>
+<a name="DataTypes"></a>
+
+## Primitives and Objects
 
 In JavaScript, you have two types of data:
 
@@ -137,7 +154,9 @@ x.value = 20;
 
 Both `x` and `y` point to the same object in memory.
 
-### [Adding or removing properties](https://codeburst.io/javascript-quickie-dot-notation-vs-bracket-notation-333641c0f781)<a name="Modifying"></a>
+<a name="Modifying"></a>
+
+### [Adding or removing properties](https://codeburst.io/javascript-quickie-dot-notation-vs-bracket-notation-333641c0f781)
 
 You can add a property to an object by using either '_dot notation_'
 
@@ -163,9 +182,13 @@ console.log(sound);
 // meow
 ```
 
-## Object Oriented Principles Expanded<a name="Expanded"></a>
+<a name="Expanded"></a>
 
-## Abstraction<a name="ExpandedAbstraction"></a>
+## Object Oriented Principles Expanded
+
+<a name="ExpandedAbstraction"></a>
+
+## Abstraction
 
 Variables declared within a function can be made private by using `let` or `const` in place of `this`. The scope of these local variables only exists within the function and cannot be accessed outside of the function.
 
@@ -211,11 +234,14 @@ and
   }
 ```
 
-## Inheritance<a name="ExpandedInheritance"></a>
+<a name="ExpandedInheritance"></a>
+
+## Inheritance
 
 The second principle of OOP is inheritance, or taking on properties and methods from other modules. There are two types of inheritance: _classical_ and _prototypical_ inheritance.
+<a name="Prototypical"></a>
 
-## Prototypes and prototypical inheritance<a name="Prototypical"></a>
+## Prototypes and prototypical inheritance
 
 The prototype is the parent object, which allows child objects to inherit attributes from the prototype. Every object in JavaScript has a prototype except the root object, the objectBase.
 
@@ -286,7 +312,9 @@ for (let key in obj) {
 }
 ```
 
-### Instance vs prototype members<a name="InstancevsPrototype"></a>
+<a name="InstancevsPrototype"></a>
+
+### Instance vs prototype members
 
 ```javascript
 function Circle(radius) {
@@ -301,8 +329,9 @@ Circle.prototype.draw = function() {
 ```
 
 When calling a method of an object, the JavaScript engine first looks at the Instance members, before looking at the prototype members. In the above example, the `Circle.draw()` method call would use the function declared in the prototype object, rather than the instance of the `Circle` object.
+<a name="CustomPrototype"></a>
 
-### Creating your own prototype<a name="CustomPrototype"></a>
+### Creating your own prototype
 
 When multiple child objects are required which must inherit attributes from a user-defined Object, you can create a custom prototype to handle this inheritance.
 
@@ -339,7 +368,9 @@ function extend(Child, Parent) {
 }
 ```
 
-### Calling the super constructor<a name="SuperConstructor"></a>
+<a name="SuperConstructor"></a>
+
+### Calling the super constructor
 
 To substitute a property in the child object with one declared in the parent object, use the `call()` method, i.e.
 
@@ -349,7 +380,9 @@ parentObject.call(this, exampleProperty);
 
 within the declaration of the child object.
 
-### Method overwriting<a name="MethodOverwriting"></a>
+<a name="MethodOverwriting"></a>
+
+### Method overwriting
 
 Method overwriting is used when one or more child objects requires a different implementation of a parent object property. You simply re-declare a property on the Child object. As described earlier, the JavaScript engine walks up the chain from the child object to the parent object on a method call, therefore the function declaration on the Child object will be used, i.e.
 
@@ -360,7 +393,9 @@ Circle.prototype.duplicate = function() {
 };
 ```
 
-## Polymorphism<a name="ExpandedPolymorphism"></a>
+<a name="ExpandedPolymorphism"></a>
+
+## Polymorphism
 
 If we expand the above example for method overwriting with a second constructor, `Square`, with yet another `duplicate()` method implementation, we are broaching into Polymorphism, the fourth pillar of OOP.
 
@@ -378,7 +413,9 @@ for (let shape of shapes) shape.duplicate();
 
 which uses the `duplicate()` method unique to each object.
 
-### Composition<a name="Composition"></a>
+<a name="Composition"></a>
+
+### Composition
 
 To avoid complex inheritance heirarchies, use composition instead of inheritance. Composition involves creating objects, and then using the `Object.assign()` method to combine the source objects. This can further be encapsulated using an interable array as an input argument to a function, i.e.
 
@@ -390,7 +427,9 @@ function mixIn(target, ...sources) {
 
 (_See mixins.js for more information, including `spread` operator_.)
 
-## Classes in ES6<a name="Classes"></a>
+<a name="Classes"></a>
+
+## Classes in ES6
 
 Classes are a new feature in JavaScript ES6. They are essentially sytactic sugar over prototypical inheritance.
 
@@ -413,7 +452,9 @@ const c = new Circle(1);
 
 Classes, like functions, can be invoked using declaration or expression. And, like functions, the class declaration will be hoisted to the top of the file while class expressions will not.
 
-### Static Methods<a name="StaticMethods"></a>
+<a name="StaticMethods"></a>
+
+### Static Methods
 
 Static methods can be declared within a class by using the `static` prefix keyword. Static methods are utility functions which can be used outside of the scope of the class to acheive some return value, i.e.
 
@@ -427,7 +468,9 @@ class Math2 {
 Math2.abs();
 ```
 
-### This keyword<a name="This"></a>
+<a name="This"></a>
+
+### This keyword
 
 Consider the following:
 
@@ -450,7 +493,9 @@ draw();
 
 The output of the method call will be the Circle object, whereas the output of the function call will be the global object - Window in the browser and Global in node. However, the strict mode can be used to prevent function calls from accessing the global object by adding `'use strict'` to the top of the file. This is to prevent the user from modifying the global object. By default, the body of a class declaration will use the strict mode.
 
-### Class inheritance<a name="ClassInheritance"></a>
+<a name="ClassInheritance"></a>
+
+### Class inheritance
 
 Inheriting methods from a prototype class is very simple using classes. Simply use the `extends` keyword in the class declaration, i.e.
 
@@ -486,7 +531,9 @@ a constructor must then be added which invokes `super()` to inherit the property
   }
 ```
 
-## Tips<a name="Tips"></a>
+<a name="Tips"></a>
+
+## Tips
 
 Function declarations are hoisted by the engine to the top of the file. Function expressions are not hoisted. You will not get an error at runtime when calling a function before it's declaration, however you will get an error for calling a function before it's expression.
 
